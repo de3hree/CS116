@@ -9,6 +9,8 @@ public class LoanDecisionApp {
 		boolean qualify = true;
 		//Boolean to determine if the program should stop looping and asking for input
 		boolean validInput = false;
+		
+		//Store input for comparison
 		int salary;
 		int years;
 		
@@ -18,7 +20,7 @@ public class LoanDecisionApp {
 			      // code that should be “tried"
 				
 				//Have to make a new Scanner each loop, 
-				//  if you don't then the Scanner will just repeat the mismatch input
+				//  if not re-instantiated the Scanner will just repeat the mismatch input
 				Scanner input = new Scanner(System.in);
 			    
 				

@@ -7,7 +7,7 @@ public class BobsLife {
 	private static boolean isJail = false;
 	private static String currLocation = "home";
 	
-	//Unparameterized attributes
+	//Parameterized attributes
 	private static int hunger;
 	private static int fitness;
 	private static int dollars;
@@ -46,8 +46,20 @@ public class BobsLife {
 				"His wallet seems to be " + broknessString + ".(" + dollars + ")\n" +
 				"On closer inspection he seems to be quite " + bmiString +".(" + fitness + ")\n" ;
 		
-		if(isDead || isJail) {
-			result = "Bob is incapacitated.";
+		if(isDead) {
+			result = 
+					"The atomic time of the universe is " + time + ".\n"+
+					"Bob is six-feet under. (dead)\n" +
+					"He appears to be " + hungryString + ".(" + hunger + ")\n" + 
+					"His wallet seems to be " + broknessString + ".(" + dollars + ")\n" +
+					"On closer inspection he seems to be quite " + bmiString +".(" + fitness + ")\n" ;
+		} else if(isJail) {
+			result = 
+					"The atomic time of the universe is " + time + ".\n"+
+					"Bob is in jail for deciding to be broke. (jailed)\n" +
+					"He appears to be " + hungryString + ".(" + hunger + ")\n" + 
+					"His wallet seems to be " + broknessString + ".(" + dollars + ")\n" +
+					"On closer inspection he seems to be quite " + bmiString +".(" + fitness + ")\n" ;
 		}
 		
 		return result;
