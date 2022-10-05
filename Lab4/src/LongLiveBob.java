@@ -3,7 +3,7 @@ public class LongLiveBob {
 
 	public static void main(String[] arrgs) {
 		
-		BobsLife notBob = new BobsLife(0,4,5);
+		BobsLife notBob = new BobsLife(0,4,5,"home");
 		
 		
 		System.out.println(notBob);

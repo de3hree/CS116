@@ -22,10 +22,11 @@ public class BobsLife {
 	
 	
 	//Parameterized constructor
-	public BobsLife(int hunger, int fitness, int money) {
+	public BobsLife(int hunger, int fitness, int money, String startLocation) {
 		setHunger(hunger);
 		setFitness(fitness);
 		setDollars(money);
+		move(startLocation);
 	}
 	
 	
@@ -33,8 +34,8 @@ public class BobsLife {
 	public String toString() {
 		String hungryString = (hunger >= 3) ? "famished":"satisfied";
 		String bmiString = (fitness <= 3) ? "unhealthy":"lean";
-		String broknessString = (dollars <= 3) ? "impovershied":"bustling";
-		String grammerString = (currLocation.equals("gym")) ? " the":" " ;
+		String broknessString = (dollars <= 3) ? "impoverished":"bustling";
+		String grammerString = (currLocation.equals("gym")) ? " the ":" " ;
 		
 		
 		
@@ -49,7 +50,7 @@ public class BobsLife {
 		if(isDead) {
 			result = 
 					"The atomic time of the universe is " + time + ".\n"+
-					"Bob is six-feet under. (dead)\n" +
+					"Bob is six-feet under and plans to stay that way. (dead)\n" +
 					"He appears to be " + hungryString + ".(" + hunger + ")\n" + 
 					"His wallet seems to be " + broknessString + ".(" + dollars + ")\n" +
 					"On closer inspection he seems to be quite " + bmiString +".(" + fitness + ")\n" ;
