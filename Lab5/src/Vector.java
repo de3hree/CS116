@@ -35,7 +35,7 @@ public class Vector {
 	}
 
 	
-	//Uses pythagorean theorem to get length of arc
+	//Uses pythagorean theorem to get length of arc, absolute values in case the coordinates are negative
 	public double getLength() {
 		return Math.sqrt(Math.pow(Math.abs(getEndPointX()) - Math.abs(getStartPointX()), 2) + 
 				         Math.pow(Math.abs(getEndPointY()) - Math.abs(getStartPointX()), 2));

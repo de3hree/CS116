@@ -1,7 +1,7 @@
 
 public class BoundVector extends Vector {
 
-	
+	//Parameterized attributes
 	private static int startX;
 	private static int startY;
 	
