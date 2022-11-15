@@ -45,20 +45,20 @@ public class Lab9Main {
 			test16k.add(Integer.valueOf(rng.nextInt(-10000, 10001)));
 		}
 		
-		testBinaryInsertion(test1k);
-		testInsertion(test1k);
-		System.out.println("1k");
-		testBinaryInsertion(test2k);
-		testInsertion(test2k);
-		System.out.println("2k");
-		testBinaryInsertion(test4k);
-		testInsertion(test4k);
-		System.out.println("4k");
-		testBinaryInsertion(test8k);
+		//testBinaryInsertion(test1k);
+		//testInsertion(test1k);
+		//System.out.println("1k");
+		//testBinaryInsertion(test2k);
+		//testInsertion(test2k);
+		//System.out.println("2k");
+		//testBinaryInsertion(test4k);
+		//testInsertion(test4k);
+		//System.out.println("4k");
+		//testBinaryInsertion(test8k);
 		testInsertion(test8k);
-		System.out.println("8k");
-		testBinaryInsertion(test16k);
-		testInsertion(test16k);
+		//System.out.println("8k");
+		//testBinaryInsertion(test16k);
+		//testInsertion(test16k);
 		
 		
 		
@@ -70,15 +70,17 @@ public class Lab9Main {
 	//   sort individually but using all 100 at the same time does kinda show the time difference as well
 	private static void testInsertion(ArrayList currArray) {
 		int x = 0;
-		long startTime = System.nanoTime();
 		while(x < 100) {
-			insertionSort(currArray);
+			long startTime = System.nanoTime();
+			ArrayList<Integer> iteration = currArray;
+			insertionSort(iteration);
 			x += 1;
+			long endTime = System.nanoTime();
+			long timeElapsed = endTime - startTime;
+			System.out.println("Execution time in nanoseconds : " + timeElapsed);
+			System.out.println("Execution time in milliseconds : " + timeElapsed / 1000000);
 		}
-		long endTime = System.nanoTime();
-		long timeElapsed = endTime - startTime;
-		System.out.println("Execution time in nanoseconds : " + timeElapsed);
-		System.out.println("Execution time in milliseconds : " + timeElapsed / 1000000);
+		
 		
 		
 	}
