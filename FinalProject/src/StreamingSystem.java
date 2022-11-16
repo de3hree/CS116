@@ -194,7 +194,7 @@ public class StreamingSystem {
 	}
 	
 	private void addPlaylist() {
-		
+		System.out.println("");
 	}
 	
 	private void savePlaylist() {
