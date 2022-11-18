@@ -2,16 +2,16 @@
 public class RecursionApp {
 
 	public static void main(String[] args) {
-		String testStr = "not a palindrome";
+		/*String testStr = "not a palindrome";
 		String testStr2 = "tacocat";
 
 		System.out.println(palindrome(testStr));
-		System.out.println(palindrome(testStr2));
+		System.out.println(palindrome(testStr2));*/
 		
-		double a = 200.0;
-		double t = 100.0;
+		double a = 11.0;
+		double t = 0.3;
 		
-		//System.out.print(squareRoot(a,a,t));
+		System.out.print(squareRoot(a / 2,a,t));
 		
 		
 		
@@ -33,14 +33,14 @@ public class RecursionApp {
 	public static double squareRoot(double currIteration, double targetNum, double approxRange) {
 		
 		
-		if(currIteration == 0.0) {
+		if(currIteration < 1.0) {
 			return targetNum / 2;
 		}
 		
 		double currentApprox = squareRoot(currIteration - 1,targetNum,approxRange);
 		System.out.println(currentApprox + " iteration " + currIteration);
 		
-		if(Math.pow(currentApprox, 2.0) < targetNum && Math.pow(currentApprox, 2.0) > targetNum - approxRange ) {
+		if(Math.pow(currentApprox, 2.0) < targetNum + approxRange && Math.pow(currentApprox, 2.0) > targetNum - approxRange ) {
 			System.out.println(currentApprox);
 			return currentApprox;
 		}
