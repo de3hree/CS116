@@ -8,8 +8,8 @@ public class RecursionApp {
 		System.out.println(palindrome(testStr));
 		System.out.println(palindrome(testStr2));*/
 		
-		double a = 11.0;
-		double t = 0.3;
+		double a = 200.0;
+		double t = 10.0;
 		
 		System.out.print(squareRoot(a / 2,a,t));
 		
@@ -30,22 +30,17 @@ public class RecursionApp {
 
 	}
 	
-	public static double squareRoot(double currIteration, double targetNum, double approxRange) {
+	public static double squareRoot(double currApprox, double targetNum, double approxRange) {
 		
 		
-		if(currIteration < 1.0) {
-			return targetNum / 2;
+		if(Math.pow(currApprox, 2.0) < targetNum + approxRange && Math.pow(currApprox, 2.0) > targetNum - approxRange ) {
+			return currApprox;
 		}
 		
-		double currentApprox = squareRoot(currIteration - 1,targetNum,approxRange);
-		System.out.println(currentApprox + " iteration " + currIteration);
+		double nextApprox = 0.5 * (currApprox + targetNum/currApprox);
+		System.out.println(currApprox + " iteration ");
 		
-		if(Math.pow(currentApprox, 2.0) < targetNum + approxRange && Math.pow(currentApprox, 2.0) > targetNum - approxRange ) {
-			System.out.println(currentApprox);
-			return currentApprox;
-		}
-		
-		return 0.5 * (currentApprox + (targetNum / currentApprox));
+		return squareRoot(nextApprox, targetNum,approxRange);
 	}
 
 }
