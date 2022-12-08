@@ -20,7 +20,7 @@ public class AudioRecording extends Recording {
 		
 	}
 	
-	public double getBitrate() {
+	public double getQuality() {
 		return bitrate;
 	}
 	
@@ -29,6 +29,11 @@ public class AudioRecording extends Recording {
 		return super.toString() + " [AUDIO | bitrate: " + bitrate + " kbps]";
 	}
 	
+	
+	@Override
+	public String getType() {
+		return "A";
+	}
 	
 	
 }

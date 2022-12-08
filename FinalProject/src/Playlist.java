@@ -47,6 +47,10 @@ public class Playlist{
 		return this.durationInSeconds;
 	}
 	
+	public ArrayList<Recording> getRecordings(){
+		return recordingList;
+	}
+	
 	public int size() {
 		return recordingList.size();
 	}
@@ -68,6 +72,22 @@ public class Playlist{
 		}	
 	}
 	
+	
+	public int findSong(String name) {
+		for(int i = 0; i < recordingList.size(); i++) {
+			if(recordingList.get(i).recordingName.toUpperCase().equals(name.toUpperCase())) {
+				return i;
+			}
+		}
+		return -1;
+		
+		
+	}
+	
+	public void remove(int index) {
+		recordingList.remove(index);
+	}
+	
 	// play method
 	public void play(){
 		// Check if the playlist is empty...
@@ -85,9 +105,9 @@ public class Playlist{
 	}
 	
 	// shuffle method
-	public void shuffle(int numberOfRecordingsToPlay){
+	public void shuffle(){
 		// Check if the playlist is empty...
-		if (this.recordingList.size() > 0 && numberOfRecordingsToPlay > 0) {
+		if (this.recordingList.size() > 0) {
 			// Set up "already played" counter
 			int recordingsPlayedCounter = 0;
 			
@@ -95,7 +115,7 @@ public class Playlist{
 			Random randomNumberGenerator = new Random();
 			
 			// ...if not, randomly choose numberOfRecordings...
-			while (recordingsPlayedCounter < numberOfRecordingsToPlay){
+			while (recordingsPlayedCounter < this.recordingList.size()- 1){
 				// ... and invoke their play method
 				recordingList.get(randomNumberGenerator.nextInt(this.recordingList.size())).play();
 				recordingsPlayedCounter++;

@@ -1,4 +1,4 @@
-public class Recording {
+public abstract class Recording {
 	// Class attributes / fields
 	// Final because we can only set it once
 	protected String artist;
@@ -59,5 +59,11 @@ public class Recording {
 	public String toString(){
 		return this.artist + " - " + this.recordingName + " [" + ((int) Math.floor(this.durationInSeconds/60)) + "m" + (this.durationInSeconds % 60) + "s]";	
 	}
+	
+	public String getType() {
+		return "R";
+	}
+	
+	public abstract double getQuality();
 
 }

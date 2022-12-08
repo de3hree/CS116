@@ -18,7 +18,7 @@ public class VideoRecording extends Recording {
 		
 	}
 	
-	public double getFramerate() {
+	public double getQuality() {
 		return framerate;
 	}
 	
@@ -27,5 +27,9 @@ public class VideoRecording extends Recording {
 		return super.toString() + " [VIDEO | framerate: " + framerate + " fps]";
 	}
 	
+	@Override
+	public String getType() {
+		return "V";
+	}
 	
 }
