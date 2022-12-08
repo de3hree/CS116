@@ -47,6 +47,10 @@ public class Playlist{
 		return this.durationInSeconds;
 	}
 	
+	public int size() {
+		return recordingList.size();
+	}
+	
 	// A method that adds a new recording
 	public boolean add(Recording newRecording){
 		// Make sure we can add this recording first (not null and enough space)

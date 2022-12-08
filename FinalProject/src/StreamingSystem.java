@@ -1,5 +1,8 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -7,59 +10,57 @@ import java.util.Scanner;
 public class StreamingSystem {
 
 	private Scanner input = new Scanner(System.in);
-	private static File DB = new File("BillboardHot100.csv");
+	private static File DB = new File("userDB.csv");
 	private static Scanner userDB;
 	private int userNumber = 0;
-	static boolean isLogged = false;
-	User currentUser = null;
+	private static User currentUser = null;
 	
 	ArrayList<User> userList = new ArrayList<User>();
 	
 	public StreamingSystem() {
+		this.loadDB();
 		
 	}
 	
 	public int menuChoice() {
-		System.out.print("Choice : ");
-		userNumber = input.nextInt();
-		return userNumber;
+		try {
+			System.out.print("Choice : ");
+			userNumber = input.nextInt();
+			return userNumber;
+		} catch(InputMismatchException e) {
+			input = new Scanner(System.in);
+			return -1;
+		}
+		
 	}
 	
-	private static void loadDB() {
+	private void loadDB() {
 		try {
+			System.out.print(DB);
 			userDB = new Scanner(DB);
 			while(userDB.hasNextLine()) {
 				String inLine = userDB.nextLine();
 				if(inLine != null) {
 					String [] splitLine = inLine.split(",");
 					
-					if (splitLine != null && splitLine.length == 2) {
-						if (splitLine[0]. || splitLine[0].equals("V")) {
-							String name = splitLine[1];
-							int id = Integer.parseInt(splitLine[0]);
-							try {
-															
-							} catch (NumberFormatException nfe){
-								System.out.println("ERROR: Number format exception. Recording rejected (" + line + ").");
-							}
-						} else {
-							System.out.println("ERROR: Unknown recording type data (" + line + ").");
-						}
-						
+					if (splitLine != null && splitLine.length == 1) {
+						String name = splitLine[0].substring(0);
+						User tempUser = new User(name);
+						tempUser.getPlaylist().load(name + "Playlist.csv");
+						userList.add(tempUser);
 					} else {
-						System.out.println("ERROR: Inconsistent or no data read (" + line + ").");
+						System.out.println("ERROR: Inconsistent or no data read (" + inLine + ").");
 					}
-				}
-					
-				}
+				}	
 			}
+			
 		} catch(FileNotFoundException e) {
 			System.out.println("No user db omegalul");
 		}
 	}
 	
 	private static void displayMenu() {
-		if(isLogged) {
+		if(currentUser != null) {
 			System.out.println(
 				"\nChoose from the choices below: \n" +
 				"  1. Add recording to playlist \n" +
@@ -79,12 +80,12 @@ public class StreamingSystem {
 				"  2. Remove user  \n" +
 				"  3. List all users \n" +
 				"  4. Login to user \n" + 
-				"  5. Exit");
+				"  5. Save users and Exit");
 		}
 	}
 	
 	public void startChoices() {
-		while(userNumber != 5 || isLogged) {
+		while(userNumber != 5 || currentUser != null) {
 			displayMenu();
 			actions();
 		}
@@ -92,7 +93,7 @@ public class StreamingSystem {
 	}
 	
 	private void actions() {
-		if (!isLogged) {
+		if (currentUser == null) {
 			switch(this.menuChoice()) {
 			case(1):
 				addUser();
@@ -107,6 +108,24 @@ public class StreamingSystem {
 				login();
 				break;
 			case(5):
+				//Try block to catch any errors from opening the files 
+				try {
+					//File writer to pass to the buffer writer, the buffer writer is utilized for better performance 
+					//   (although that doesn't really matter on such a small data set)
+					FileWriter saveFile = new FileWriter(DB.getAbsoluteFile());
+					BufferedWriter buffer = new BufferedWriter(saveFile);
+					
+					//Save each string representation of the User object in UserList to the csv file in the order that they are read from the file
+					//  This over writes any data previously in the file
+					for(int i = 0; i < userList.size(); i++) {
+						System.out.println("Saving " + userList.get(i).toString());
+						buffer.write(userList.get(i).toString());
+						buffer.write("\n");
+					}
+					buffer.close();
+				} catch (IOException e) {
+					System.out.print("There was an error with saving the user database.\n\tPlease make sure that the file was not deleted and is closed.");
+				}
 				break;	
 			default:
 				System.out.print("Number entered is an invalid choice, please try again.");
@@ -143,7 +162,6 @@ public class StreamingSystem {
 				break;
 			case(10):
 				this.currentUser = null;
-				this.isLogged = false;
 				System.out.println("Logged out");
 				break;	
 			default:
@@ -194,27 +212,48 @@ public class StreamingSystem {
 	}
 	
 	private void addPlaylist() {
-		System.out.println("");
+		System.out.println("Is the playlist stored as another users or in a file? (U/F): ");
+		String locationAnswer = input.next();
+		if(locationAnswer.toLowerCase().equals("u")) {
+			//TODO
+		} else if(locationAnswer.toLowerCase().equals("f")) {
+			//TODO
+		}
+			
 	}
 	
 	private void savePlaylist() {
+		try {
+			userDB = new Scanner(DB);
+			userList.indexOf(currentUser);
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("DB lost");
+		}
 		
 	}
 	
 	private void playPlaylist() {
-		
+		currentUser.getPlaylist().play();
 	}
 	
 	private void shufflePlaylist() {
-		
+		currentUser.getPlaylist().shuffle(currentUser.getPlaylist().size());
 	}
 	
 	private void showPlaylist() {
-		
+		System.out.println(currentUser.getPlaylist());
 	}
 		
 	private void playRecording() {
-			
+			System.out.println("What is the name of the song or ID of the song?");
+			try {
+				String response = input.next();
+				Integer.parseInt(response);
+			} catch(NumberFormatException e) {
+				
+				
+			}
 	}
 	
 	private void addUser() {
@@ -231,17 +270,24 @@ public class StreamingSystem {
 	private void removeUser() {
 		System.out.print("\nPlease enter the user name of the account to remove: ");
 		try {
-			String inputName = this.input.next();
-			System.out.print(inputName);
+			//Strip the input to ignore extra whitespace
+			String inputName = this.input.next().strip();
+			
+			//Go through every user, since they aren't sorted, and check if the user exists via the user name
 			for(int i = 0; i < userList.size();i++) {
-				if(userList.get(i).getUsername().equals(inputName)) {
+				
+				//Upon a match remove the user from the list and their associated playlist, if they have one
+				if(userList.get(i).getUsername().toUpperCase().equals(inputName.toUpperCase())) {
 					userList.remove(i);
 					System.out.println("\nUser successfully removed.");
-				} else {
-					System.out.println("\nERROR: User not found.");
+					File removePlaylist = new File(inputName + "Playlist.csv");
+					removePlaylist.delete();
+					return;
 				}
 			}
-		} catch(InputMismatchException e) {
+			System.out.println("\nERROR: User not found.");
+			return;
+		} catch(InputMismatchException e) { //If user does not exist, reset the scanner and inform the user
 			System.out.println("Wrong input for name, please try again.");
 			this.input = new Scanner(System.in);
 		}
@@ -249,24 +295,26 @@ public class StreamingSystem {
 	}
 	
 	private void listUsers() {
-		for(int i = 0; i < userList.size(); i++) {
-			System.out.println(userList.get(i));
+		System.out.println("List of users:");	
+		;
+		for(int i = 0; i < this.userList.size(); i++) {
+			System.out.println("\t" + userList.get(i));
+			
 		}
 	}
 	
 	private void login() {
 		System.out.print("\nPlease enter the user name of the account to login to: ");
 		try {
-			String inputName = this.input.next();
+			String inputName = this.input.next().strip();
 			for(int i = 0; i < userList.size();i++) {
-				if(userList.get(i).getUsername().equals(inputName)) {
+				if(userList.get(i).getUsername().toUpperCase().equals(inputName.toUpperCase())) {
 					currentUser = userList.get(i);
 					System.out.println("\nLogged in.");
-					isLogged = true;
-				} else {
-					System.out.println("\nERROR: User not found.");
+					return;
 				}
 			}
+			System.out.println("\nERROR: User not found.");
 		} catch(InputMismatchException e) {
 			System.out.println("Wrong input for name, please try again.");
 			this.input = new Scanner(System.in);
