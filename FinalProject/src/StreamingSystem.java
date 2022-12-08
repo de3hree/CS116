@@ -165,7 +165,7 @@ public class StreamingSystem {
 				showPlaylist();
 				break;
 			case(10):
-				this.currentUser = null;
+				currentUser = null;
 				System.out.println("Logged out");
 				break;	
 			default:
@@ -178,25 +178,51 @@ public class StreamingSystem {
 	private void addRecording() {
 		
 		System.out.println("What is the artist's name? : ");
-		String artist = input.next();
+		Scanner artistIn = new Scanner(System.in);
+		String artist = artistIn.next();
 		System.out.println("What is the recording's name? : ");
-		String name = input.next();
+		Scanner songIn = new Scanner(System.in);
+		String name = songIn.next();
+		
 		System.out.println("What is the duration in seconds? : ");
-		int duration = input.nextInt();
-		
-		
-		System.out.println("Is the recording video or just audio? (Enter a or v) : ");
-		if(input.next().toLowerCase().equals("v")) {
-			System.out.println("What is the framerate in decimal? : ");
-			double framerate = input.nextDouble();
-			this.currentUser.getPlaylist().add(new VideoRecording(artist,name,duration,framerate));
-		} else if(input.next().toLowerCase().equals("a")) {
-			System.out.println("What is the bitrate in decimal? : ");
-			double bitrate = input.nextDouble();
-			this.currentUser.getPlaylist().add(new AudioRecording(artist,name,duration,bitrate));
-		} else {
-			System.out.println("ERROR: Input is out of scope.");
+		try {
+			int duration = input.nextInt();
+			System.out.println("Is the recording video or just audio? (Enter a or v) : ");
+			try {
+				String recordType = input.next();
+				if(recordType.toLowerCase().strip().equals("v")) {
+					System.out.println("What is the framerate in decimal? : ");
+					try {
+						double framerate = input.nextDouble();
+						currentUser.getPlaylist().add(new VideoRecording(artist,name,duration,framerate));
+					} catch (InputMismatchException e) {
+						System.out.println("ERROR: the entered value was not a decimal or integer.");
+						input = new Scanner(System.in);
+					}
+					
+				} else if(recordType.toLowerCase().strip().equals("a")) {
+					System.out.println("What is the bitrate in decimal? : ");
+					try {	
+						double bitrate = input.nextDouble();
+						currentUser.getPlaylist().add(new AudioRecording(artist,name,duration,bitrate));
+					} catch (InputMismatchException e) {
+						System.out.println("ERROR: the entered value was not a decimal or integer.");
+						input = new Scanner(System.in);
+					}
+				} else {
+					System.out.println("ERROR: Input is out of scope.");
+				}
+			} catch(InputMismatchException e) {
+				System.out.println("ERROR: The entered values was not 'A' or 'V'.");
+			}
+		} catch (InputMismatchException e) {
+			System.out.println("ERROR: the entered value was not an integer.");
+			input = new Scanner(System.in);
 		}
+		
+		
+		
+		
 		
 	}
 	
@@ -293,7 +319,7 @@ public class StreamingSystem {
 	}
 	
 	private void shufflePlaylist() {
-		currentUser.getPlaylist().shuffle(currentUser.getPlaylist().size());
+		currentUser.getPlaylist().shuffle();
 	}
 	
 	private void showPlaylist() {

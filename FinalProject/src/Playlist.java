@@ -117,10 +117,10 @@ public class Playlist{
 			// ...if not, randomly choose numberOfRecordings...
 			while (recordingsPlayedCounter < this.recordingList.size()- 1){
 				// ... and invoke their play method
-				recordingList.get(randomNumberGenerator.nextInt(this.recordingList.size())).play();
+				int rng  = randomNumberGenerator.nextInt(recordingList.size() - 1 - recordingsPlayedCounter);
+				recordingList.add(recordingList.remove(rng));
 				recordingsPlayedCounter++;
 			}
-			System.out.println();
 		} else {
 			// ...if empty, display this error message
 			System.out.println("ERROR: Empty playlist.");
